@@ -8,13 +8,14 @@ export class AuthService {
     account;
 
     constructor(){
+        //we did not initilize the client with the endpoints earlier as we want to do this when the object is called, that is why we have initialized it in a constructor
         this.client
             .setEndpoint(config.appwriteURL)
             .setProject(config.appwriteProjectID)
 
         this.account = new Account(this.client)
     }
-    //the reason for creating this function is to reduce our dependency on appwrite. If we would want to use another third party service like firebase then the function would remain the same. It would still take email, password and name as inputs, only the way to create an account would change according to different services. We would have to change the constructor as well.
+    //the reason for creating these functions    is to reduce our dependency on appwrite. If we would want to use another third party service like firebase then the function would remain the same. It would still take email, password and name as inputs, only the way to create an account would change according to different services. We would have to change the constructor as well.
     async createAccount({email, password, name}){
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name)
